@@ -4,6 +4,7 @@ require 'excon'
 require 'packagecloud/result'
 require 'packagecloud/connection'
 require 'packagecloud/version'
+require 'date'
 
 module Packagecloud
   SUPPORTED_EXTENSIONS = ["deb", "dsc", "gem", "rpm", "whl", "zip", "egg", "egg-info", "tar", "bz2", "Z", "gz", "tgz"]
@@ -76,6 +77,23 @@ module Packagecloud
 
     def gem_version
       response = get("/api/v1/gem_version.json")
+      parsed_json_result(response)
+    end
+
+    def gem_show(repo, gem, version)
+      assert_valid_repo_name(repo)
+      response = get("/api/v1/repos/#{username}/#{repo}/package/gem/#{gem}/#{version}.json")
+      parsed_json_result(response)
+    end
+
+    def gem_downloads_count(repo, gem, version,
+                            start_date = Date.today - 7 ,
+                            end_date = Date.today)
+      start_date = Date.parse(start_date) if start_date.class != Date
+      end_date = Date.parase(end_date) if end_date.class != Date
+
+      assert_valid_repo_name(repo)
+      response = get("/api/v1/repos/#{username}/#{repo}/package/gem/#{gem}/#{version}/stats/downloads/count.json?start_date=#{start_date.strftime("%Y%m%dZ")}&end_date=#{end_date.strftime("%Y%m%dZ")}")
       parsed_json_result(response)
     end
 

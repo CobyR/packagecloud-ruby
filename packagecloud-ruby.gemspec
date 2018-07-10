@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.version       = Packagecloud::VERSION
   gem.summary       = "library for interacting with packagecloud.io"
   gem.description   = gem.summary
-  gem.license       = "APL 2.0"
+  gem.license       = "MIT"
   gem.authors       = ["Joe Damato"]
   gem.email         = "joe@packagecloud.io"
   gem.homepage      = "https://rubygems.org/gems/packagecloud-ruby"
